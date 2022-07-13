@@ -1,6 +1,8 @@
 package br.com.projeto.api.controle;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.validation.Valid;
 
@@ -21,17 +23,25 @@ import br.com.projeto.api.repositorio.Repositorio;
 import br.com.projeto.api.servico.Servico;
 
 
-// MANIPULADOR DE ROTAS //
+// CONTROLE -> MANIPULADOR DE ROTAS //
 
-@RestController
+@RestController // Define a classe como controle de ROTASs
 public class controle {
 
-    //CRIANDO O OBJETO REPOSITORIO//
+    //CRIANDO O OBJETO DO REPOSITORIO//
     @Autowired //Permite que o Spring implemente a instanciação do object sem a necessidade do operador NEW
     private Repositorio acao;
 
     @Autowired
     private Servico servico;
+    /*
+     * Criação de ROTAS
+     * @(Get,Post,Put,Delete)Mapping("/rota/url/{variavel}")
+     * public <Classe de retorno> rota1(@PathVariable String variavel)
+     * {
+     *      return "Olá, "+variavel
+     * }
+     */
 
     //ACÃO DE CADSTRAR PESSOA <METODO POST - GERAR JSON>
     //
@@ -40,9 +50,11 @@ public class controle {
     public Pessoa cadastrar(@RequestBody Pessoa obj)
     {
         return acao.save(obj);
+        SAVE PODE SALVAR COMO ALTERAR <Se a chave primária for igual ele altera>
     }
     */
     // USANDO SERVIÇOS //
+    // @RequestBody -> Permite adicionar valores em formato de json no método POST
     @PostMapping("/api")
     public ResponseEntity<?> cadastrar(@RequestBody Pessoa obj)
     {
@@ -111,6 +123,7 @@ public class controle {
     }
 
     ///////// PASSANDO VARIÁVEIS /////////////
+
     @GetMapping("/rota2/{nome}")
     public String boasVindas(@PathVariable String nome)
     {
@@ -133,7 +146,7 @@ public class controle {
     ///////// USANDO COUNT ////////////////////////////////////
     //// PERMITE CONTAR A QUANTIDADE DE PESSOAS CADASTRADAS ///
     @GetMapping("/api/contador")
-    public long contador()
+    public long contador() //Contador retornar um valor do tipo long
     {
         return acao.count();
     }
@@ -190,6 +203,13 @@ public class controle {
         return acao.idadeMaior(valor);
     }
 
+    @GetMapping("/api/idadeIgual/{valor}")
+    public List<Pessoa> idadeIgual(@PathVariable int valor)
+    {
+        return acao.idadeIgual(valor);
+    }
+    
+
     ////////////////////// ResponseEntity ////////////////////////////////
     /// CRIANDO STATUS DE RESPOSTAS -> ResponseEntity<?> (new ResponseEntity<>(HttpStatus.))
     @GetMapping("/status")
@@ -207,4 +227,55 @@ public class controle {
         
     }
 
+    /////// GERAR BANCO ALEATORIO ////////////////////////////////////////////
+    @GetMapping("/gerar")
+    public void gerar()
+    {
+        int x = 0;
+        while(x < 50)
+        {
+            Random random = new Random();
+            String[] nome = {
+                "Isadora", 
+                "Laiz", 
+                "Renato", 
+                "Marcos", 
+                "Roberto", 
+                "Gilcaldu", 
+                "Fulano", 
+                "Beltrano"
+            };
+            String[] sobrenome = {
+                "Fonseca",
+                "Margoleri",
+                "Sabour",
+                "Narizta",
+                "Fagound",
+                "Donzeca",
+                "Paula"
+            };
+            String[] terceironome = {
+                "De Soares",
+                "Augustin",
+                "De la Fer",
+                "Tamaz",
+                "Munique",
+                "Bernique"
+            };
+            int[] idade = {12, 51, 41, 32, 57, 13, 65, 15, 69, 51, 72, 74};
+            int valorNome = random.nextInt(nome.length);
+            int valorNome2 = random.nextInt(sobrenome.length);
+            int valorNome3 = random.nextInt(terceironome.length);
+            int valorIdade = random.nextInt(idade.length);
+            Pessoa novapessoa = new Pessoa();
+            String valor = nome[valorNome]+" "+sobrenome[valorNome2]+" "+terceironome[valorNome3];
+            novapessoa.setNome(valor);
+            novapessoa.setIdade(idade[valorIdade]);
+            servico.cadastrar(novapessoa);
+            x++;
+        }
+        //servico.cadastrar(novapessoa);
+
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 }

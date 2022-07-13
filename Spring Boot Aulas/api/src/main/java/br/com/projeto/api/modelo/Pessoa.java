@@ -7,13 +7,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity //Obriga a criar a tabela 
+
+////// TABELA PESSOA NO SQL //////
+@Entity //Obriga a criar a tabela //
 @Table(name = "pessoas") // @javax.persistence -> Permite nomear a tabela ()
 public class Pessoa {
-    //@Entity: Responsavel por criar tabela
-    //@Table: Alterar coisas específicas da tabela
+    //@Entity: Responsavel por criar tabela @javax.persistence
+    //@Table(name = "nome desejável"): Alterar coisas específicas da tabela
     //@Id: Gera uma chave primária
-    //@GeneratedValue: implementa o auto incremento
+    //@GeneratedValue(strategy = GenerationType.IDENTITY): implementa o auto incremento
     
     @Id //javax.persistence -> Define a chave primaria
     @GeneratedValue(strategy = GenerationType.IDENTITY) // RESPONSAVEL POR GERAR VALORES DECRESCENTE 

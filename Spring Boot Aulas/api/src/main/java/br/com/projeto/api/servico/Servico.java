@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.com.projeto.api.controle.controle;
+
 import br.com.projeto.api.modelo.Mensagem;
 import br.com.projeto.api.modelo.Pessoa;
 import br.com.projeto.api.repositorio.Repositorio;
