@@ -1,5 +1,7 @@
 package br.com.projeto.api.servico;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +46,25 @@ public class Servico {
     {
         return new ResponseEntity<>(acao.findAll(), HttpStatus.OK);
     }
+
+    public ResponseEntity<?> selecionarTipo(String tipo)
+    {
+        List<Pessoa> lista = acao.nomeIgual(tipo);
+        if(lista.size() == 0)
+        {
+            mensagem.setMensagem("Não houve nenhum retorno");
+            mensagem.ps.clear();
+            return new ResponseEntity<>(mensagem, HttpStatus.OK);
+        }
+        else
+        {
+            mensagem.setMensagem("Houve um total de "+lista.size()+" registros encontrados");
+            mensagem.ps = lista;
+            return new ResponseEntity<>(mensagem, HttpStatus.OK);
+        }
+    }
+
+
 
     // METODO PARA SELECIONAR PESSOAS PELO CÓDIGO
     public ResponseEntity<?> selecionarPeloCodigo(int codigo)

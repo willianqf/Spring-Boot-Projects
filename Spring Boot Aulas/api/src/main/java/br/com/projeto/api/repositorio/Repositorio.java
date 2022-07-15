@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import br.com.projeto.api.modelo.Pessoa;
@@ -57,22 +58,26 @@ public interface Repositorio extends CrudRepository<Pessoa, Integer> {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    ////////// CRIANDO QUERRYs //////////////////////////////////
-    // Querry(value="Comando SQL", nativeQuery = true)
+    /////////// CRIANDO QUERRYs /////////////////////////////////////////
+    ///
+    /// Querry(value="Comando SQL", nativeQuery = true)
     @Query(value = "SELECT SUM(idade) FROM PESSOAS", nativeQuery = true)
     int somaIdades();
-    // Querry(value="Comando SQL :valores ", nativeQuery = true)
-    // Usar " : " para passar parâmetros
+    /// Querry(value="Comando SQL :valores ", nativeQuery = true)
+    /// Usar " : " para passar parâmetros
     @Query(value = "SELECT * FROM pessoas WHERE idade >= :idade", nativeQuery = true)
     List<Pessoa> idadeMaior(int idade);
-    //
+    ///
     @Query(value = "SELECT * FROM pessoas WHERE idade = :idade", nativeQuery = true)
     List<Pessoa> idadeIgual(int idade);
-    //
-    @Query(value = "SELECT * FROM pessoas WHERE idade = :idade", nativeQuery = true)
-    List<Pessoa> idadeIgualeNome(int idade, String nome);
-    //
-    ////////////////////////////////////////////////////////////
+    ///
+    @Query(value = "SELECT * FROM pessoas WHERE idade = :suaidade AND nome LIKE %:nomes%", nativeQuery = true)
+    List<Pessoa> idadeIgualeNome(@Param("nomes") String nome, @Param("suaidade") int idade);
+    ///
+    @Query(value = "SELECT * FROM pessoas WHERE nome LIKE %:tipo%", nativeQuery = true)
+    List<Pessoa> nomeIgual(@Param("tipo") String nome);
+    ///
+    /////////////////////////////////////////////////////////////////////
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

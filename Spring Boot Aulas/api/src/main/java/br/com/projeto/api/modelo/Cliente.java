@@ -14,7 +14,8 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 @Table(name="clientes")
 public class Cliente {
-    @Id // DEFINE CHAVE PRIMÁRIA
+    ////////////////////////////////////////////////////////
+    @Id // DEFINE CHAVE PRIMÁRIA 
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO INCREMENTT (IDENTITY)
     private int codigo;
     
@@ -24,7 +25,7 @@ public class Cliente {
     @Email(message = "Informe um e-mail válido") // VALIDA SE O EMAIL POSSUI "@" e "."
     private String email;
 
-    ////////////////////////////////////////
+    ////////////////////////////////////////////////////////
     public String getEmail() {
         return email;
     }

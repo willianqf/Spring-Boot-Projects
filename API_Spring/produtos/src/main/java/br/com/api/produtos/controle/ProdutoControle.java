@@ -1,5 +1,7 @@
 package br.com.api.produtos.controle;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +15,13 @@ public class ProdutoControle {
     @Autowired
     private ProdutoServico ps;
 
+    @GetMapping("/tester")
+    public String testador()
+    {
+        int[] x = new int[30];
+        String value = x.toString();
+        return value;
+    }
     @GetMapping("/rota") //TIPO DE REQUISIÇÃO GET ("tipo de rota")
     public String rota()
     {
@@ -22,6 +31,7 @@ public class ProdutoControle {
     @GetMapping("/listar") //TIPO DE REQUISIÇÃO GET ("tipo de rota")
     public Iterable<ProdutoModelo> listar()
     {
+        //Iterable -> Lista de dados
         return ps.listar();
     }
 }

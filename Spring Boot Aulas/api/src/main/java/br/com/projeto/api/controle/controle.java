@@ -43,6 +43,13 @@ public class controle {
      * }
      */
 
+     @GetMapping("")
+     public String inicio()
+     {
+        return "<h1>Você retornou para uma rota inexistente<h1>";
+     }
+
+     
     //ACÃO DE CADSTRAR PESSOA <METODO POST - GERAR JSON>
     //
     /* 
@@ -208,10 +215,21 @@ public class controle {
     {
         return acao.idadeIgual(valor);
     }
+
+    @GetMapping("/api/idadeIgualeNome/{nome}&{idade}")
+    public List<Pessoa> idadeIgualeNome(@PathVariable String nome, @PathVariable int idade)
+    {
+        return acao.idadeIgualeNome(nome, idade);
+    }
     
+    @GetMapping("/api/verificarTipo/{nome}")
+    public ResponseEntity<?> verificarTipo(@PathVariable String nome)
+    {
+        return servico.selecionarTipo(nome);
+    }
 
     ////////////////////// ResponseEntity ////////////////////////////////
-    /// CRIANDO STATUS DE RESPOSTAS -> ResponseEntity<?> (new ResponseEntity<>(HttpStatus.))
+    /// CRIANDO STATUS DE RESPOSTAS -> ResponseEntity<?>(<?> -> Não sabe o retorno) (new ResponseEntity<>(Mensagem, HttpStatus.STATUS))
     @GetMapping("/status")
     public ResponseEntity<?> status()
     {
