@@ -26,9 +26,9 @@ public class ProdutoServico {
         return pr.findAll();
     }
 
-    // Metodo para cadastrar produtos
+    // Metodo para cadastrar ou alterar produtos
     // Posso retornar tanto produtoModelo ou RespostaModelo
-    public ResponseEntity<?> cadastrar(ProdutoModelo pm)
+    public ResponseEntity<?> CadastrarAlterar(ProdutoModelo pm, String acao)
     {
         if(pm.getNome().equals(""))
         {
@@ -42,8 +42,53 @@ public class ProdutoServico {
         }
         else
         {
-            return new ResponseEntity<ProdutoModelo>(pr.save(pm), HttpStatus.CREATED);
+            if(acao.equals("cadastrar"))
+            {
+                return new ResponseEntity<ProdutoModelo>(pr.save(pm), HttpStatus.CREATED);
+            }else
+            {
+                return new ResponseEntity<ProdutoModelo>(pr.save(pm), HttpStatus.OK);
+                /* 
+                Boolean find = false;
+                Iterable<ProdutoModelo> produtos = listar();
+                for(ProdutoModelo obj : produtos)
+                {
+                    if(obj.getCodigo() == pm.getCodigo())
+                    {
+                        find = true;
+                    }
+                }
+                if(find)
+                    return new ResponseEntity<ProdutoModelo>(pr.save(pm), HttpStatus.OK);
+                else
+                {
+                    rm.setMensagem("Não foi encontrada o nome na base de dados");
+                    return new ResponseEntity<RespostaModelo>(rm, HttpStatus.NOT_FOUND);
+
+                }
+                */
+            }
+            
         }
+    }
+
+    // METODO PARA REMOVER PRODUTOS
+    public ResponseEntity<?> remover(long codigo)
+    {
+        Iterable<ProdutoModelo> produtos = listar();
+        rm.setMensagem("Não foi encontrado o objeto que deseja deletar");
+        ResponseEntity<RespostaModelo> msg = new ResponseEntity<RespostaModelo>(rm, HttpStatus.NOT_FOUND);
+        for(ProdutoModelo obj : produtos)
+        {
+            if(obj.getCodigo() == codigo)
+            {
+                rm.setMensagem("Produto foi removido com sucesso");
+                pr.deleteById(codigo);
+                msg = new ResponseEntity<RespostaModelo>(rm, HttpStatus.OK);
+                break;
+            }
+        }
+        return msg;
     }
 
 }

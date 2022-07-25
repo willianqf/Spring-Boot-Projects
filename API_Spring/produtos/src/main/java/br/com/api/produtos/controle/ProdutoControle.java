@@ -3,7 +3,13 @@ package br.com.api.produtos.controle;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.api.produtos.modelo.ProdutoModelo;
@@ -34,4 +40,26 @@ public class ProdutoControle {
         //Iterable -> Lista de dados
         return ps.listar();
     }
+
+    //CADASTRAR
+    @PostMapping("/cadastrar")
+    public ResponseEntity<?> cadastrar(@RequestBody ProdutoModelo  pm)
+    {
+        return ps.CadastrarAlterar(pm, "cadastrar");
+    }
+
+    //Modificar
+    @PutMapping("/modificar")
+    public ResponseEntity<?> Modificar(@RequestBody ProdutoModelo  pm)
+    {
+        return ps.CadastrarAlterar(pm, "modificar");
+    }
+
+    //Deletar
+    @DeleteMapping("/deletar/{codigo}")
+    public ResponseEntity<?> Modificar(@PathVariable long codigo)
+    {
+        return ps.remover(codigo);
+    }
+
 }
