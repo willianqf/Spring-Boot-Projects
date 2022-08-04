@@ -24,9 +24,7 @@ public class ProdutoControle {
     @GetMapping("/tester")
     public String testador()
     {
-        int[] x = new int[30];
-        String value = x.toString();
-        return value;
+        return "testando apenas";
     }
     @GetMapping("/rota") //TIPO DE REQUISIÇÃO GET ("tipo de rota")
     public String rota()
@@ -34,6 +32,7 @@ public class ProdutoControle {
         return "<h1>Essa rota está funcionando<h1>";
     }
 
+    //Listar
     @GetMapping("/listar") //TIPO DE REQUISIÇÃO GET ("tipo de rota")
     public Iterable<ProdutoModelo> listar()
     {
